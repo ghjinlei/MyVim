@@ -28,6 +28,9 @@
 	set tabpagemax=15               " Only show 15 tabs
 	set showmode                    " Display the current mode
 	set cursorline                  " Highlight current line
+	hi CursorLine   cterm=underline ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+	set cursorcolumn                " Highlight currnet column
+	hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=NONE  guibg=darkred guifg=NONE
 	
 	set ruler                       " Show the ruler
 	set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
