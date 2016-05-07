@@ -1,0 +1,61 @@
+" =======================================================================
+" Author:	Louie Jin <767508270@qq.com>
+" Copyright (C) 2016 Louie Jin
+" Last modified:	2016-03-02 21:33
+" Filename:	.vimrc.bundle
+" Description:
+"========================================================================
+
+set nocompatible        " Must be first line
+filetype off		" required!
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let vundle manage vundle, required!
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+Plugin 'VundleVim/Vundle.vim'
+
+" vim-powerline bundle {
+	set laststatus=2
+	set t_Co=256
+	let g:Powerline_symbols = 'unicode'
+	set encoding=utf8
+	Plugin 'Lokaltog/vim-powerline.git'
+" }
+
+" the nerd tree bundle {
+	Plugin 'The-NERD-tree'
+" }
+
+" vim-multiple-cursors {
+	Plugin 'terryma/vim-multiple-cursors'
+" }
+
+" vim-colors-solarized {
+	let g:solarized_termcolors = 256
+	let g:solarized_termtrans = 1
+	let g:solarized_contrast = "normal"
+	let g:solarized_visibility = "normal"
+	Plugin 'altercation/vim-colors-solarized'
+" }
+
+" my bundles here:
+
+" required plugins available after
+call vundle#end()
+filetype plugin indent on
+
+" bundle map {
+	nmap <silent> <F6> :NERDTreeToggle<CR>
+" }
+
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just
+" :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+

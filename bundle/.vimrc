@@ -6,111 +6,82 @@
 " Description:
 "========================================================================
 "
-"------------------------ bundle config ----------------------------
-set nocompatible	" be improved
-filetype off		" required!
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Use bundles config {
+	if filereadable(expand("~/.vimrc.bundle"))
+		source ~/.vimrc.bundle
+	endif
 
-" let vundle manage vundle, required!
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-Plugin 'VundleVim/Vundle.vim'
-
-" vim-powerline bundle {
-	set laststatus=2
-	set t_Co=256
-	let g:Powerline_symbols = 'unicode'
-	set encoding=utf8
-	Plugin 'Lokaltog/vim-powerline.git'
+	color solarized
 " }
 
-" the nerd tree bundle {
-	Plugin 'The-NERD-tree'
-" }
-"
-" ctrlspace bundle {
-	Plugin 'szw/vim-ctrlspace'
-" }
-"
-" vim-multiple-cursors {
-	Plugin 'terryma/vim-multiple-cursors'
-" }
-"
-" vim-colors-solarized {
-	let g:solarized_termcolors = 256
-	let g:solarized_termtrans = 1
-	let g:solarized_contrast = "normal"
-	let g:solarized_visibility = "normal"
-	Plugin 'altercation/vim-colors-solarized'
+" Environment {
+	" Identify platform {
+	silent function! OSX()
+		return has('macunix')
+	endfunction
+	silent function! LINUX()
+		return has('unix') && !has('macunix') && !has('win32unix')
+	endfunction
+	silent function! WINDOWS()
+		return  (has('win32') || has('win64'))
+	endfunction
+	" }
+
+	" Basics {
+	set nocompatible        " Must be first line
+
+	" Windows Compatible {
+	" On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+	" across (heterogeneous) systems easier.
+	if WINDOWS()
+		set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
+	endif
+	" }
 " }
 "
-" YouCompleteMe {
-	Plugin 'Valloric/YouCompleteMe'
-" }
-" taglist bundle {
-	" let Tlist_Ctags_Cmd='/usr/bin/ctags' 	" associate taglist with ctags
-	let Tlist_Show_Menu = 1
-	let Tlist_Show_One_File = 1
-	let Tlist_Exit_OnlyWindow = 1
-	let Tlist_File_Fold_Auto_Close = 1
-	Plugin 'taglist.vim'
-" }
-
-" winmanager bundle {
-	let g:winManagerWindowLayout = 'FileExplorer|TagList'
-	let g:winManagerWidth = 25
-	let g:AutoOpenWinManager = 1 		" open winmanager while enter vim
-	Plugin 'winmanager'
-" }
-
-" my bundles here:
-
-" required plugins available after
-call vundle#end()
-filetype plugin indent on
-
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-" bundle map {
-	nmap <silent> <F8> :WMToggle<CR>
-	nmap <silent> <F10> :NERDTreeToggle<CR>
-" }
-
-" ----------------------- my config ---------------------------
 " General { 
-	set nocompatible                " Must be first line
 	set background=dark             " Assume a dark background
+	" Allow to trigger background
+	function! ToggleBG()
+		let s:tbg = &background
+		" Inversion
+		if s:tbg == "dark"
+			set background=light
+		else
+			set background=dark
+		endif
+	endfunction
+	noremap <leader>bg :call ToggleBG()<CR>
+
 	filetype plugin indent on       " Automatically detect file types.
 	syntax on                       " Syntax highlighting
+	set mouse=a                     " Automatically enable mouse usage
+	set mousehide                   " Hide the mouse cursor while typing
 	scriptencoding utf-8
-	"set spell                     " Spell checking on
+	" set spell                       " Spell checking on
 	set hidden                      " Allow buffer switching without saving
 	set iskeyword-=.                " '.' is an end of word designator
 	set iskeyword-=#                " '#' is an end of word designator
 	set iskeyword-=-                " '-' is an end of word designator
 " }
 
-" Vim UI { 
-	color solarized                 " Load a colorscheme
+" Vim UI {
 	set tabpagemax=15               " Only show 15 tabs
+	set showmode                    " Display the current mode
 	set cursorline                  " Highlight current line
-	highlight clear SignRow
-	" hi CursorLine   cterm=underline ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+	highlight CursorLine term=none cterm=none ctermbg=240
 	set cursorcolumn                " Highlight currnet column
-	highlight clear SignColumn      " SignColumn should match background
-	" hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=NONE  guibg=darkred guifg=NONE
-	set showcmd                     " Show partial commands in status line and
-	set backspace=indent,eol,start  " Backspace for dummies
+	highlight CursorColumn term=none cterm=none ctermbg=240
 	set number                      " Line numbers on
 	highlight clear LineNr          " Current line number row will have same background color in relative mode
+	
+	set ruler                       " Show the ruler
+	set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+	set showcmd                     " Show partial commands in status line and
+
+	set statusline=[%n]\ %t\ (%F)\ %m%r%h%w\ [%{&ff}]\ [%Y]\ [%l/%L,%v,%o]\ [%p%%]\ [0x%02.2B]
+	
+	set backspace=indent,eol,start  " Backspace for dummies
 	set showmatch                   " Show matching brackets/parenthesis
 	set incsearch                   " Find as you type search
 	set hlsearch                    " Highlight search terms
@@ -125,13 +96,13 @@ filetype plugin indent on
 	set foldenable                  " Auto fold code
 	set foldmethod=marker
 	set list
-	set listchars=tab:>-,eol:<,trail:-,extends:#,nbsp:. " Highlight problematic whitespace
+	set listchars=tab:>-,eol:<,trail:-,extends:# " Highlight problematic whitespace
 " }
 
 " Formatting {
 	set autoindent                  " Indent at the same level of the previous line
 	set splitright                  " Puts new vsplit windows to the right of the current
-	set splitbelow                  " Puts new split windows to the bottom of the current
+	set splitbelow                  "Puts new split windows to the bottom of the current
 	set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 	" For all text files set 'textwidth' to 78 characters.
 	autocmd FileType c,cpp,lua setlocal textwidth=80 formatoptions+=t
@@ -140,6 +111,19 @@ filetype plugin indent on
 		\ autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 " }
 
+" Key (re)Mappings {
+	" Don't use Ex mode, use Q for formatting
+	map Q gq
+	map L gt
+	map H gT
+	map <C-J> <C-W>j
+	map <C-K> <C-W>k
+	map <C-H> <C-W>h
+	map <C-L> <C-W>l
+
+	map <space> :nohlsearch<cr>:call AutoHighLightToggle()<cr>
+" }
+"
 " Functions {
 	" {{ begin of HighlightWord
 	let g:auto_highlight_word_enabled = 0
@@ -189,13 +173,3 @@ filetype plugin indent on
 	" }
 " }
 
-" Key (re)Mappings {
-	map L gt
-	map H gT
-	map <C-J> <C-W>j
-	map <C-K> <C-W>k
-	map <C-H> <C-W>h
-	map <C-L> <C-W>l
-
-	map <space> :nohlsearch<cr>:call AutoHighLightToggle()<cr>
-" }
