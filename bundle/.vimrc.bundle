@@ -18,7 +18,7 @@ Plugin 'VundleVim/Vundle.vim'
 " vim-powerline bundle {
 	set laststatus=2
 	set t_Co=256
-	let g:Powerline_symbols = 'unicode'
+	" let g:Powerline_symbols = 'unicode'
 	set encoding=utf8
 	Plugin 'Lokaltog/vim-powerline.git'
 " }
@@ -28,7 +28,15 @@ Plugin 'VundleVim/Vundle.vim'
 " }
 
 " vim-multiple-cursors {
+	let g:multi_cursor_next_key = '<C-n>'
+	let g:multi_cursor_prev_key = '<C-p>'
+	let g:multi_cursor_skip_key = '<C-x>'
+	let g:multi_cursor_quit_key = '<Esc>'
 	Plugin 'terryma/vim-multiple-cursors'
+" }
+"
+" vim-signature {
+	Plugin 'kshenoy/vim-signature.git'
 " }
 
 " vim-colors-solarized {
@@ -39,6 +47,9 @@ Plugin 'VundleVim/Vundle.vim'
 	Plugin 'altercation/vim-colors-solarized'
 " }
 
+" ultisnips {
+	Plugin 'SirVer/ultisnips.git'
+" }
 " my bundles here:
 
 " required plugins available after
@@ -46,7 +57,7 @@ call vundle#end()
 filetype plugin indent on
 
 " bundle map {
-	nmap <silent> <F6> :NERDTreeToggle<CR>
+	nmap <silent> <F4> :NERDTreeToggle<CR>
 " }
 
 " Brief help

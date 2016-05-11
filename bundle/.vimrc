@@ -69,9 +69,9 @@
 	set tabpagemax=15               " Only show 15 tabs
 	set showmode                    " Display the current mode
 	set cursorline                  " Highlight current line
-	highlight CursorLine term=none cterm=none ctermbg=240
+	highlight CursorLine term=none cterm=none ctermbg=235
 	set cursorcolumn                " Highlight currnet column
-	highlight CursorColumn term=none cterm=none ctermbg=240
+	highlight CursorColumn term=none cterm=none ctermbg=235
 	set number                      " Line numbers on
 	highlight clear LineNr          " Current line number row will have same background color in relative mode
 	
