@@ -6,14 +6,6 @@
 " Description:
 "========================================================================
 "
-" Use bundles config {
-	if filereadable(expand("~/.vimrc.bundle"))
-		source ~/.vimrc.bundle
-	endif
-
-	color solarized
-" }
-
 " Environment {
 	" Identify platform {
 	silent function! OSX()
@@ -26,39 +18,31 @@
 		return  (has('win32') || has('win64'))
 	endfunction
 	" }
-
+	"
 	" Basics {
 	set nocompatible        " Must be first line
-
-	" Windows Compatible {
-	" On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-	" across (heterogeneous) systems easier.
+	" }
+	
+	" Platform compatible {
 	if WINDOWS()
 		set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
 	endif
 	" }
 " }
 "
-" General { 
+" Use bundles config {
+	if filereadable(expand("~/.vimrc.bundle"))
+		source ~/.vimrc.bundle
+	endif
+" }
+
+" General {
 	set background=dark             " Assume a dark background
-	" Allow to trigger background
-	function! ToggleBG()
-		let s:tbg = &background
-		" Inversion
-		if s:tbg == "dark"
-			set background=light
-		else
-			set background=dark
-		endif
-	endfunction
-	noremap <leader>bg :call ToggleBG()<CR>
 
 	filetype plugin indent on       " Automatically detect file types.
 	syntax on                       " Syntax highlighting
-	set mouse=a                     " Automatically enable mouse usage
-	set mousehide                   " Hide the mouse cursor while typing
 	scriptencoding utf-8
-	" set spell                       " Spell checking on
+
 	set hidden                      " Allow buffer switching without saving
 	set iskeyword-=.                " '.' is an end of word designator
 	set iskeyword-=#                " '#' is an end of word designator
@@ -66,14 +50,17 @@
 " }
 
 " Vim UI {
+	if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+		color solarized         " Load a colorscheme
+	endif
+
 	set tabpagemax=15               " Only show 15 tabs
 	set showmode                    " Display the current mode
+
 	set cursorline                  " Highlight current line
-	highlight CursorLine term=none cterm=none ctermbg=235
 	set cursorcolumn                " Highlight currnet column
-	highlight CursorColumn term=none cterm=none ctermbg=235
-	set number                      " Line numbers on
-	highlight clear LineNr          " Current line number row will have same background color in relative mode
+	hi clear SignColumn             " SignColumn should match background
+	hi clear LineNr                 " Current Line number row will have same background color
 	
 	set ruler                       " Show the ruler
 	set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
@@ -82,6 +69,7 @@
 	set statusline=[%n]\ %t\ (%F)\ %m%r%h%w\ [%{&ff}]\ [%Y]\ [%l/%L,%v,%o]\ [%p%%]\ [0x%02.2B]
 	
 	set backspace=indent,eol,start  " Backspace for dummies
+	set number                      " Line numbers on
 	set showmatch                   " Show matching brackets/parenthesis
 	set incsearch                   " Find as you type search
 	set hlsearch                    " Highlight search terms
@@ -90,7 +78,7 @@
 	set smartcase                   " Case sensitive when uc present
 	set wildmenu                    " Show list instead of just completing
 	set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-	set whichwrap=b,s,<,>,[,]       " Backspace and cursor keys wrap too
+	set whichwrap=b,s,<,>,[,]   " Backspace and cursor keys wrap too
 	set scrolljump=5                " Lines to scroll when cursor leaves screen
 	set scrolloff=3                 " Minimum lines to keep above and below cursor
 	set foldenable                  " Auto fold code
@@ -102,10 +90,11 @@
 " Formatting {
 	set autoindent                  " Indent at the same level of the previous line
 	set splitright                  " Puts new vsplit windows to the right of the current
-	set splitbelow                  "Puts new split windows to the bottom of the current
+	set splitbelow                  " Puts new split windows to the bottom of the current
 	set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 	" For all text files set 'textwidth' to 78 characters.
-	autocmd FileType c,cpp,lua setlocal textwidth=80 formatoptions+=t
+	autocmd FileType c,cpp,java,javascript,python,lua
+		\ setlocal textwidth=80 formatoptions+=t
 	" Remove trailing whitespaces and ^M chars
 	autocmd FileType c,cpp,java,javascript,python,lua
 		\ autocmd BufWritePre <buffer> call StripTrailingWhitespace()
