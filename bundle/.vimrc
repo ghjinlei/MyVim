@@ -98,6 +98,9 @@
 	" Remove trailing whitespaces and ^M chars
 	autocmd FileType c,cpp,java,javascript,python,lua
 		\ autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+
+	autocmd BufNewFile *.c,*.cpp exec ":call SetComment1()"
+	autocmd BufNewFile *.lua exec ":call SetComment2()"
 " }
 
 " Key (re)Mappings {
@@ -158,6 +161,32 @@
 		" clean up: restore previous search history, and cursor position
 		let @/=_s
 		call cursor(l, c)
+	endfunction
+	" }
+	
+	" insert comment: c, cpp, ... {
+	function! SetComment1()
+		call append(0, "\/*============================================================")
+		call append(1, "* Copyright (C) " . strftime("%Y") . "Jin Lei")
+		call append(2, "* ")
+		call append(3, "* Path : " . expand("%"))
+		call append(4, "* Author : jinlei")
+		call append(5, "* CreateTime : " . strftime("$Y-%m-%d %H:%M:%S"))
+		call append(6, "* Description :")
+		call append(7, "* ")
+		call append(8, "========================================================*/")
+	endfunction
+	" }
+
+	" insert comment: lua {
+	function! SetComment2()
+		call append(0, "--[[")
+		call append(1, "ModuleName :")
+		call append(2, "Path : " . expand("%"))
+		call append(3, "Author : jinlei")
+		call append(4, "CreateTime : " . strftime("%Y-%m-%d %H:%M:%S"))
+		call append(5, "Description :")
+		call append(6, "--]]")
 	endfunction
 	" }
 " }
