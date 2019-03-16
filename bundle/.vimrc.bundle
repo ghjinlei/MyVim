@@ -8,12 +8,26 @@
 
 set nocompatible        " Must be first line
 filetype off            " required!
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=$HOME/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 
 " let vundle manage vundle, required!
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 Plugin 'VundleVim/Vundle.vim'
+
+" nerdtree {
+	let g:NERDTreeWinSize = 30
+	let g:nerdtree_tabs_open_on_console_startup=1
+	let NERDTreeShowBookmarks=1
+	Plugin 'scrooloose/nerdtree'
+	Plugin 'jistr/vim-nerdtree-tabs'
+" }
+
+" ctrlp {
+	Plugin 'ctrlpvim/ctrlp.vim'
+	Plugin 'tacahiroy/ctrlp-funky'
+" }
 
 " vim-powerline bundle {
 	set laststatus=2
@@ -37,6 +51,15 @@ Plugin 'VundleVim/Vundle.vim'
 	Plugin 'altercation/vim-colors-solarized'
 " }
 
+" vim-surround {
+	Plugin 'tpope/vim-surround'
+	Plugin 'tpope/vim-repeat'
+" }
+
+" vim-trailing-whitespace {
+	Plugin 'bronson/vim-trailing-whitespace'
+" }
+
 " my bundles here:
 
 " required plugins available after
@@ -44,7 +67,9 @@ call vundle#end()
 filetype plugin indent on
 
 " bundle map {
-"
+	nnoremap <leader><space> :FixWhitespace<cr>
+
+	map <F3> :NERDTreeToggle<cr>
 " }
 
 " Brief help

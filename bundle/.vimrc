@@ -5,7 +5,7 @@
 " Filename:	.vimrc
 " Description:
 "========================================================================
-"
+
 " Environment {
 	" Identify platform {
 	silent function! OSX()
@@ -21,17 +21,18 @@
 	"
 	" Basics {
 	set nocompatible        " Must be first line
+	let mapleader=","
 	" }
-	
+
 	" Platform compatible {
 	if WINDOWS()
 		set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
 	endif
 	" }
 " }
-"
+
 " Use bundles config {
-	if filereadable(expand("~/.vimrc.bundle"))
+	if filereadable(expand("$HOME/.vimrc.bundle"))
 		source ~/.vimrc.bundle
 	endif
 " }
@@ -47,12 +48,16 @@
 	set iskeyword-=.                " '.' is an end of word designator
 	set iskeyword-=#                " '#' is an end of word designator
 	set iskeyword-=-                " '-' is an end of word designator
-" }
+
+	set clipboard+=unnamed          " vim默认寄存器与系统寄存器共享
+	set winaltkeys=no               " 设置alt键不映射到菜单栏
 
 " Vim UI {
-	if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-		color solarized         " Load a colorscheme
+	if filereadable(expand("$HOME/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+		color solarized             " Load a colorscheme
 	endif
+
+	set guioptions-=m               " 关闭GUI菜单栏
 
 	set tabpagemax=15               " Only show 15 tabs
 	set showmode                    " Display the current mode
@@ -61,13 +66,13 @@
 	set cursorcolumn                " Highlight currnet column
 	hi clear SignColumn             " SignColumn should match background
 	hi clear LineNr                 " Current Line number row will have same background color
-	
+
 	set ruler                       " Show the ruler
 	set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
 	set showcmd                     " Show partial commands in status line and
 
 	set statusline=[%n]\ %t\ (%F)\ %m%r%h%w\ [%{&ff}]\ [%Y]\ [%l/%L,%v,%o]\ [%p%%]\ [0x%02.2B]
-	
+
 	set backspace=indent,eol,start  " Backspace for dummies
 	set number                      " Line numbers on
 	set showmatch                   " Show matching brackets/parenthesis
@@ -95,9 +100,6 @@
 	" For all text files set 'textwidth' to 78 characters.
 	autocmd FileType c,cpp,java,javascript,python,lua
 		\ setlocal textwidth=80 formatoptions+=t
-	" Remove trailing whitespaces and ^M chars
-	autocmd FileType c,cpp,java,javascript,python,lua
-		\ autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 
 	autocmd BufNewFile *.c,*.cpp exec ":call SetComment1()"
 	autocmd BufNewFile *.lua exec ":call SetComment2()"
@@ -105,13 +107,30 @@
 
 " Key (re)Mappings {
 	" Don't use Ex mode, use Q for formatting
-	map Q gq
-	map L gt
-	map H gT
-	map <C-J> <C-W>j
-	map <C-K> <C-W>k
-	map <C-H> <C-W>h
-	map <C-L> <C-W>l
+	noremap <C-[> <ESC>
+
+	nnoremap Q gq
+	nnoremap L gt
+	nnoremap H gT
+	nnoremap <C-J> <C-W>j
+	nnoremap <C-K> <C-W>k
+	nnoremap <C-H> <C-W>h
+	nnoremap <C-L> <C-W>l
+
+	nnoremap <M-J> :resize -5<CR>
+	nnoremap <M-K> :resize +5<CR>
+	nnoremap <M-H> :vertical resize -5<CR>
+	nnoremap <M-L> :vertical resize +5<CR>
+
+	inoremap <M-J> <Down>
+	inoremap <M-K> <Up>
+	inoremap <M-H> <Left>
+	inoremap <M-L> <Right>
+
+	inoremap <C-BS> <ESC>bdei
+
+	cnoremap <C-A> <HOME>
+	cnoremap <C-E> <END>
 
 	map <space> :nohlsearch<cr>:call AutoHighLightToggle()<cr>
 " }
@@ -131,7 +150,7 @@
 		if l:word != "" && l:word != "/" && l:word != "\\"
 			if l:word == g:cur_hightlight_word
 				return
-			end 
+			end
 			let g:cur_hightlight_word = l:word
 			call HighlightWord(g:cur_hightlight_word)
 		endif
@@ -150,20 +169,6 @@
 	endfunction
 	" }} begin of HighlightWord
 
-	" Strip whitespace {
-	function! StripTrailingWhitespace()
-		" Preparation: save last search, and cursor position.
-		let _s=@/
-		let l = line(".")
-		let c = col(".")
-		" do the business:
-		%s/\s\+$//e
-		" clean up: restore previous search history, and cursor position
-		let @/=_s
-		call cursor(l, c)
-	endfunction
-	" }
-	
 	" insert comment: c, cpp, ... {
 	function! SetComment1()
 		call append(0, "\/*============================================================")
