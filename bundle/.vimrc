@@ -27,6 +27,7 @@
 	" Platform compatible {
 	if WINDOWS()
 		set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME
+		set lines=50 columns=200
 	endif
 	" }
 " }
@@ -107,8 +108,6 @@
 
 " Key (re)Mappings {
 	" Don't use Ex mode, use Q for formatting
-	noremap <C-[> <ESC>
-
 	nnoremap Q gq
 	nnoremap L gt
 	nnoremap H gT
