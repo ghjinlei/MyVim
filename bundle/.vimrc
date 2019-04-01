@@ -39,26 +39,30 @@
 " }
 
 " General {
-	set background=dark             " Assume a dark background
-
 	filetype plugin indent on       " Automatically detect file types.
 	syntax on                       " Syntax highlighting
 	scriptencoding utf-8
+	set encoding=utf-8
+	set fileencoding=utf-8
+	set fileencodings=utf-8,ucs-bom,cp936
+	set termencoding=utf-8
+
+	set fileformats=unix,dos
+	set fileformat=unix
 
 	set hidden                      " Allow buffer switching without saving
 	set iskeyword-=.                " '.' is an end of word designator
 	set iskeyword-=#                " '#' is an end of word designator
 	set iskeyword-=-                " '-' is an end of word designator
 
-	set clipboard+=unnamed          " vimÄ¬ÈÏ¼Ä´æÆ÷ÓëÏµÍ³¼Ä´æÆ÷¹²Ïí
-	set winaltkeys=no               " ÉèÖÃalt¼ü²»Ó³Éäµ½²Ëµ¥À¸
+	set clipboard+=unnamed          " vimé»˜è®¤å¯„å­˜å™¨ä¸ç³»ç»Ÿå¯„å­˜å™¨å…±äº«
+	set winaltkeys=no               " è®¾ç½®alté”®ä¸æ˜ å°„åˆ°èœå•æ 
 
 " Vim UI {
-	if filereadable(expand("$HOME/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-		color solarized             " Load a colorscheme
-	endif
+	set background=dark             " Assume a dark background
+	color solarized                 " Load a colorscheme
 
-	set guioptions-=m               " ¹Ø±ÕGUI²Ëµ¥À¸
+	set guioptions-=m               " å…³é—­GUIèœå•æ 
 
 	set tabpagemax=15               " Only show 15 tabs
 	set showmode                    " Display the current mode
@@ -116,10 +120,10 @@
 	nnoremap <C-H> <C-W>h
 	nnoremap <C-L> <C-W>l
 
-	nnoremap <M-J> :resize -5<CR>
-	nnoremap <M-K> :resize +5<CR>
-	nnoremap <M-H> :vertical resize -5<CR>
-	nnoremap <M-L> :vertical resize +5<CR>
+	nnoremap <leader>rj :resize -5<CR>
+	nnoremap <leader>rk :resize +5<CR>
+	nnoremap <leader>rh :vertical resize -5<CR>
+	nnoremap <leader>rl :vertical resize +5<CR>
 
 	inoremap <M-J> <Down>
 	inoremap <M-K> <Up>
@@ -195,3 +199,8 @@
 	" }
 " }
 
+" Use other config {
+	if filereadable(expand("$HOME/.vimrc.other"))
+		source ~/.vimrc.other
+	endif
+" }
