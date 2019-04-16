@@ -106,6 +106,12 @@
 	autocmd FileType c,cpp,java,javascript,python,lua
 		\ setlocal textwidth=80 formatoptions+=t
 
+	autocmd FileType c,cpp,java,javascript,lua
+		\ setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab
+
+	autocmd FileType python
+		\ setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
+
 	autocmd BufNewFile *.c,*.cpp exec ":call SetComment1()"
 	autocmd BufNewFile *.lua exec ":call SetComment2()"
 " }
@@ -131,13 +137,18 @@
 	inoremap <M-L> <Right>
 
 	inoremap <C-BS> <ESC>bdei
+	inoremap ( ()<ESC>i
+	inoremap [ []<ESC>i
+	inoremap { {}<ESC>i
+	inoremap " ""<ESC>i
+	inoremap ' ''<ESC>i
 
 	cnoremap <C-A> <HOME>
 	cnoremap <C-E> <END>
 
 	map <space> :nohlsearch<cr>:call AutoHighLightToggle()<cr>
 " }
-"
+
 " Functions {
 	" {{ begin of HighlightWord
 	let g:auto_highlight_word_enabled = 0
