@@ -102,18 +102,22 @@
 	set splitright                  " Puts new vsplit windows to the right of the current
 	set splitbelow                  " Puts new split windows to the bottom of the current
 	set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
-	" For all text files set 'textwidth' to 78 characters.
-	autocmd FileType c,cpp,java,javascript,python,lua
+
+	" For all text files set 'textwidth' to 80 characters.
+	autocmd FileType c,cpp,cs,java,javascript,python,lua
 		\ setlocal textwidth=80 formatoptions+=t
 
-	autocmd FileType c,cpp,java,javascript,lua
-		\ setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab
-
-	autocmd FileType python
+	autocmd FileType c,cpp,cs,java,javascript,python
 		\ setlocal shiftwidth=4 tabstop=4 softtabstop=4 expandtab
 
-	autocmd BufNewFile *.c,*.cpp exec ":call SetComment1()"
-	autocmd BufNewFile *.lua exec ":call SetComment2()"
+	autocmd FileType lua
+		\ setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab
+
+	autocmd BufNewFile *.c,*.cpp,*.cs,*.java
+		\exec ":call SetComment1()"
+
+	autocmd BufNewFile *.lua 
+		\exec ":call SetComment2()"
 " }
 
 " Key (re)Mappings {
